@@ -1,0 +1,43 @@
+﻿@model KUSYS_Demo.Web.Models.StudentCreateViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">New Student</h6>
+    </div>
+    <div class="card-body">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-sm-6">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group col-sm-6">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group col-sm-6">
+                <label asp-for="BirthDateValue" class="control-label"></label>
+                <input type="date" asp-for="BirthDateValue" class="form-control" />
+                <span asp-validation-for="BirthDateValue" class="text-danger"></span>
+            </div>
+            <div class="form-group col-sm-6">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,45 @@
+﻿@model KUSYS_Demo.Web.Models.StudentDeleteViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Are you sure you want to delete @Model.FullName?</h6>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+            </dl>
+            <dl class="row">
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.BirthDateDisplay)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.BirthDateDisplay)
+                </dd>
+            </dl>
+            <form asp-action="Delete">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </form>
+        </div>
+    </div>
+    <a asp-action="Index">Back to List</a>
+
+
+</div>

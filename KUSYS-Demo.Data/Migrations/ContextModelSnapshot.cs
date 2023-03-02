@@ -28,34 +28,11 @@ namespace KUSYS_Demo.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CourseName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CourseId");
 
                     b.ToTable("Courses");
-
-                    b.HasData(
-                        new
-                        {
-                            CourseId = "CSI101",
-                            CourseName = "Introduction to Computer Science"
-                        },
-                        new
-                        {
-                            CourseId = "CSI102",
-                            CourseName = "Algorithms"
-                        },
-                        new
-                        {
-                            CourseId = "MAT101",
-                            CourseName = "Calculus"
-                        },
-                        new
-                        {
-                            CourseId = "PHY101",
-                            CourseName = "Physics"
-                        });
                 });
 
             modelBuilder.Entity("KUSYS_Demo.Data.Models.CourseAssignment", b =>
@@ -93,11 +70,9 @@ namespace KUSYS_Demo.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StudentId");

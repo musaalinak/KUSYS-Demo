@@ -4,38 +4,77 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BirthDate)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new {  id=item.Id  }) |
-                    @Html.ActionLink("Details", "Details", new {  id=item.Id  }) |
-                    @Html.ActionLink("Delete", "Delete", new {  id=item.Id  })
-            </td>
-        </tr>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Students</h6>
+        <a asp-action="Create" class="">
+            <i class="fas fa-fw fa-plus text-success"></i>
+            <span class="text-success">Add New</span>
+        </a>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="studentDataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FullName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.BirthDateDisplay)
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr onclick="ShowDetails(@item.Id)">
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.BirthDateDisplay)
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="modalContent">
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#studentDataTable').DataTable();
+        });
+
+        function ShowDetails(id) {
+            var studentId = id;
+            $.ajax({
+                type: "GET",
+                url: "/Student/Details",
+                data: { "id": studentId },
+                success: function (response) {
+                    $("#modalContent").html(response);
+                    $("#detailModal").modal('show');
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+    </script>
 }
-    </tbody>
-</table>
+
+
+

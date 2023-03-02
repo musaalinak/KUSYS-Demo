@@ -14,10 +14,10 @@ namespace KUSYS_Demo.Data.Models
         public int StudentId { get; set; }
 
         public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; }= string.Empty;
+        public string LastName { get; set; } = string.Empty;
         public DateTime BirthDate { get; set; } = DateTime.MinValue;
 
 
-        public List<CourseAssignment> CourseAssignments { get; set; } = new List<CourseAssignment>();
+        virtual public ICollection<CourseAssignment> CourseAssignments { get; set; } = new List<CourseAssignment>();
     }
 }

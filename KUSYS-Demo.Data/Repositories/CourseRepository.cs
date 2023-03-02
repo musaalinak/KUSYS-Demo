@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace KUSYS_Demo.Data.Repositories
 {
-    public class CourseRepository:Repository<Course>
+    public class CourseRepository : Repository<Course>
     {
+        Context context;
+        public CourseRepository(Context _context) : base(_context)
+        {
+            context = _context;
+        }
     }
 }

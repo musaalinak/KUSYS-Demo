@@ -1,0 +1,48 @@
+﻿@model KUSYS_Demo.Web.Models.CourseAssigmentAssignViewModel
+
+<div class="modal fade" id="assignModal" ondis tabindex="-1" role="dialog" aria-labelledby="assignModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignModalTitle">Assign Course</h5>
+                <button type="button" class="close" onclick="CloseModal()" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Assign">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="StudentId" />
+                    <div class="form-group">
+                        <label asp-for="Id" class="control-label"></label>
+                        @Html.DropDownListFor(x=>x.Id,Model.Courses,new {@class="form-control"})
+                        <span asp-validation-for="Id" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input id="submitButton" type="submit" value="Save" class="btn btn-primary hidden" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="CloseModal()" data-dismiss="modal">Close</button>
+                <label for="submitButton" class="btn btn-primary">Assign</label>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function CloseModal() {
+        $("#assignModal").modal('hide');
+    }
+    $('#assignModal').on('hidden.bs.modal', function (e) {
+        $("#modalContent").html("");
+    })
+</script>
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

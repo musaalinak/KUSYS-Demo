@@ -1,4 +1,5 @@
-﻿using KUSYS_Demo.Data.Models;
+﻿using KUSYS_Demo.Data;
+using KUSYS_Demo.Data.Models;
 using KUSYS_Demo.Data.Repositories;
 using System;
 using System.Collections.Generic;
@@ -8,15 +9,13 @@ using System.Threading.Tasks;
 
 namespace KUSYS_Demo.Business.Service
 {
-    public class CourseService
+    public class CourseService:Service<Course>
     {
         CourseRepository repository;
-        public CourseService() { 
-            repository = new CourseRepository();
+        public CourseService(Context context):base(new CourseRepository(context))
+        { 
+            repository= new CourseRepository(context);
         }
-        public List<Course> GetCourseList()
-        {
-            return repository.GetAll().ToList();
-        }
+
     }
 }

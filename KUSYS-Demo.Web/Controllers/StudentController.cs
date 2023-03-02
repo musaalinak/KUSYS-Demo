@@ -1,4 +1,6 @@
 ﻿using KUSYS_Demo.Business.Service;
+using KUSYS_Demo.Data;
+using KUSYS_Demo.Data.Models;
 using KUSYS_Demo.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,12 +9,17 @@ namespace KUSYS_Demo.Web.Controllers
 {
     public class StudentController : Controller
     {
-        StudentService studentService=new StudentService();
+        StudentService studentService;
+        public StudentController(Context context)
+        {
+            studentService = new StudentService(context);
+        }
+
         // GET: StudentController
         public ActionResult Index()
         {
             List<StudentListViewModel> studentList = new List<StudentListViewModel>();
-            var dbStudents=studentService.GetStudentsList();
+            var dbStudents=studentService.GetList().OrderBy(x=>x.StudentId).ToList();
             dbStudents.ForEach(s=>studentList.Add(new StudentListViewModel(s)));
             return View(studentList);
         }
@@ -20,7 +27,8 @@ namespace KUSYS_Demo.Web.Controllers
         // GET: StudentController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            var model=new StudentDetailsViewModel(studentService.GetById(id));
+            return PartialView(model);
         }
 
         // GET: StudentController/Create
@@ -34,20 +42,24 @@ namespace KUSYS_Demo.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
         {
+            StudentCreateViewModel viewModel = new StudentCreateViewModel(new Student());
+            var student=viewModel.GetObjectFromCollection(collection);
             try
             {
+                studentService.Add(student);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(viewModel);
             }
         }
 
         // GET: StudentController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            StudentEditViewModel viewModel = new StudentEditViewModel(studentService.GetById(id));
+            return View(viewModel);
         }
 
         // POST: StudentController/Edit/5
@@ -55,20 +67,24 @@ namespace KUSYS_Demo.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
         {
+            StudentEditViewModel viewModel = new StudentEditViewModel(studentService.GetById(id));
+            var student=viewModel.GetObjectFromCollection(collection);
             try
             {
+                studentService.Update(student);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(viewModel);
             }
         }
 
         // GET: StudentController/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var model = new StudentDeleteViewModel(studentService.GetById(id));
+            return View(model);
         }
 
         // POST: StudentController/Delete/5
@@ -78,6 +94,7 @@ namespace KUSYS_Demo.Web.Controllers
         {
             try
             {
+                studentService.Delete(studentService.GetById(id));
                 return RedirectToAction(nameof(Index));
             }
             catch

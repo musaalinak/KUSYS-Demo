@@ -1,0 +1,87 @@
+﻿@model KUSYS_Demo.Web.Models.StudentEditViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 class="m-0 font-weight-bold text-primary">Edit - @Model.FullName</h6>
+    </div>
+    <div class="card-body">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-sm-6">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group col-sm-6">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group col-sm-6">
+                <label asp-for="BirthDateValue" class="control-label"></label>
+                <input type="date" asp-for="BirthDateValue" class="form-control" />
+                <span asp-validation-for="BirthDateValue" class="text-danger"></span>
+            </div>
+            <div class="form-group col-sm-6">
+                <button type="button" class="btn btn-primary col-sm-2" onclick="ShowAssingModal()" data-dismiss="modal">Assign Course</button>
+                <input type="submit" value="Save" class="btn btn-success col-sm-2" />
+            </div>
+        </form>
+    </div>
+</div>
+<div id="coursesContent"></div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<div id="modalContent"></div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var studentId = @Model.Id;
+            $.ajax({
+                type: "GET",
+                url: "/CourseAssigment/List",
+                data: { "id": studentId },
+                success: function (response) {
+                    $("#coursesContent").html(response);
+                    $("#courseDataTable").DataTable();
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        });
+
+        function ShowAssingModal(id) {
+            var studentId = @Model.Id;
+            $.ajax({
+                type: "GET",
+                url: "/CourseAssigment/Assign",
+                data: { "id": studentId },
+                success: function (response) {
+                    $("#modalContent").html(response);
+                    $("#assignModal").modal('show');
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
+}

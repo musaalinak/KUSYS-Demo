@@ -11,7 +11,11 @@ namespace KUSYS_Demo.Data.Models
     {
         [Key]
         public int CourseAssignmentId { get; set; }
-        public Course Course { get; set; }= new Course();
-        public Student Student { get; set; }=new Student();
+
+        public string CourseId { get; set; } = string.Empty;
+        public int StudentId { get; set; }
+
+        virtual public Course Course { get; set; }= new Course();
+        virtual public Student Student { get; set; }=new Student();
     }
 }
